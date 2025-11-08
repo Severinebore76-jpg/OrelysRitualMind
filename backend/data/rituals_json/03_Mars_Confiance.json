@@ -1,5 +1,13 @@
 [
   {
+    "day": 1,
+    "message": "La guérison commence quand tu t’autorises à sentir.",
+    "ritual": "Diffuse de la lavande, tiens ton quartz rose et respire profondément.",
+    "stone": "Quartz rose",
+    "essential_oil": "Lavande",
+    "symbol": "⚕︎"
+  },
+  {
     "day": 2,
     "message": "Ce que tu accueilles s’apaise.",
     "ritual": "Respire une goutte de **camomille romaine**, ta **rhodonite** sur le cœur.",
