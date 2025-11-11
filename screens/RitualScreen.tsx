@@ -121,9 +121,16 @@ export default function RitualScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{ flex: 1 }}
-        contentContainerStyle={styles.scrollContent}
-      >
+        style={{ flex: 1, backgroundColor: theme.background }}
+        contentInsetAdjustmentBehavior="automatic" // 👈 fix iOS
+        automaticallyAdjustContentInsets={true} // 👈 ajuste le padding top/bottom
+        contentContainerStyle={{
+          paddingHorizontal: 20,
+          paddingTop: 40,
+          paddingBottom: 100, // 👈 augmente un peu le bas
+          alignItems: "center",
+     }}
+  >
         <View style={styles.header}>
           <Text style={{ fontSize: 22, marginBottom: 4 }}>✨</Text>
           <Text style={[styles.title, { color: theme.primary }]}>
@@ -149,8 +156,10 @@ export default function RitualScreen() {
             {ritual.message}
           </Text>
 
-          <View style={[styles.iconWrapper, { overflow: "visible" }]}>
-            <OrelysRotatingIcon />
+          <View style={[styles.iconWrapper, { height: 220, justifyContent: "center" }]}>
+            <View pointerEvents="none">
+              <OrelysRotatingIcon />
+            </View>
           </View>
 
           <View
