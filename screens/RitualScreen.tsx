@@ -1,9 +1,11 @@
+// screens/RitualScreen.tsx
 // @ts-nocheck
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,8 +15,10 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import OrelysRotatingIcon from "../components/OrelysRotatingIcon";
 import { moderateScale, scale, verticalScale } from "../constants/layout";
+import { plantesMensuelles } from "../constants/plantes";
 import { getErrorColor, getOrelysTheme } from "../constants/theme";
 import { typography } from "../constants/typography";
+import { normalizeMonthKey } from "../utils/normalizeMonthKey";
 
 export default function RitualScreen() {
   const [ritual, setRitual] = useState<any>(null);
@@ -117,20 +121,20 @@ export default function RitualScreen() {
     );
   }
 
+  const monthKey = normalizeMonthKey(monthFile);
+  console.log("🌿 monthFile:", monthFile, "→ monthKey:", monthKey);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{ flex: 1, backgroundColor: theme.background }}
-        contentInsetAdjustmentBehavior="automatic" // 👈 fix iOS
-        automaticallyAdjustContentInsets={true} // 👈 ajuste le padding top/bottom
         contentContainerStyle={{
           paddingHorizontal: 20,
           paddingTop: 40,
-          paddingBottom: 100, // 👈 augmente un peu le bas
+          paddingBottom: 100,
           alignItems: "center",
-     }}
-  >
+        }}
+      >
         <View style={styles.header}>
           <Text style={{ fontSize: 22, marginBottom: 4 }}>✨</Text>
           <Text style={[styles.title, { color: theme.primary }]}>
@@ -149,9 +153,15 @@ export default function RitualScreen() {
         <View
           style={[
             styles.card,
-            { backgroundColor: theme.card, borderColor: theme.primary },
+            { borderColor: theme.primary },
           ]}
         >
+          {/* 🌿 Image de fond visible */}
+          <Image
+            source={plantesMensuelles[monthKey] || plantesMensuelles.default}
+            style={styles.cardBackground}
+          />
+
           <Text style={[styles.message, { color: theme.primary }]}>
             {ritual.message}
           </Text>
@@ -168,9 +178,7 @@ export default function RitualScreen() {
               { backgroundColor: "#efe6e0", borderColor: theme.accent },
             ]}
           >
-            <Text style={[styles.ritualLabel, { color: "#3f2f28" }]}>
-              Rituel :
-            </Text>
+            <Text style={[styles.ritualLabel, { color: "#3f2f28" }]}>Rituel :</Text>
             <Text style={[styles.ritualText, { color: "#3f2f28" }]}>
               {ritual.ritual}
             </Text>
@@ -214,19 +222,83 @@ const styles = StyleSheet.create({
   centered: { flex: 1, justifyContent: "center", alignItems: "center" },
   loadingText: { marginTop: verticalScale(10) },
   errorText: { textAlign: "center", fontSize: typography.size.md },
-  header: { alignItems: "center", justifyContent: "center", marginBottom: verticalScale(10) },
-  title: { fontSize: typography.size.xl, fontWeight: typography.weight.semibold, textAlign: "center" },
+  header: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: verticalScale(10),
+  },
+  title: {
+    fontSize: typography.size.xl,
+    fontWeight: typography.weight.semibold,
+    textAlign: "center",
+  },
   subtitle: { fontSize: typography.size.md, textAlign: "center" },
-  card: { borderRadius: scale(16), padding: scale(18), shadowOpacity: 0.3, elevation: 4, borderWidth: 1, marginTop: verticalScale(20), marginBottom: verticalScale(40) },
-  message: { fontSize: typography.size.lg, fontStyle: "italic", lineHeight: typography.lineHeight.spacious, textAlign: "center", marginBottom: verticalScale(30), marginTop: verticalScale(20) },
+
+  card: {
+    borderRadius: scale(16),
+    padding: scale(18),
+    shadowOpacity: 0.25,
+    elevation: 3,
+    borderWidth: 1,
+    marginTop: verticalScale(20),
+    marginBottom: verticalScale(40),
+    backgroundColor: "rgba(255, 245, 240, 0.85)",
+    position: "relative",
+    overflow: "hidden",
+  },
+  cardBackground: {
+    position: "absolute",
+    top: "-5%",
+    left: "auto",
+    right: "0%",
+    bottom: "-5%",
+    width: "110%",
+    height: "110%",
+     marginLeft: "-5%",
+    opacity: 1, 
+    resizeMode: "cover", 
+    zIndex: -1,
+    transform: [{ scale: 1.05 }],
+  },
+
+  message: {
+    fontSize: typography.size.lg,
+    fontStyle: "italic",
+    lineHeight: typography.lineHeight.spacious,
+    textAlign: "center",
+    marginBottom: verticalScale(30),
+    marginTop: verticalScale(20),
+  },
   iconWrapper: { alignItems: "center", marginVertical: verticalScale(4) },
-  ritualBox: { borderRadius: scale(10), padding: scale(14), marginTop: verticalScale(8), borderWidth: 1 },
-  ritualLabel: { fontWeight: "600", marginBottom: verticalScale(4), fontSize: typography.size.md },
+  ritualBox: {
+    borderRadius: scale(10),
+    padding: scale(14),
+    marginTop: verticalScale(8),
+    borderWidth: 1,
+  },
+  ritualLabel: {
+    fontWeight: "600",
+    marginBottom: verticalScale(4),
+    fontSize: typography.size.md,
+  },
   ritualText: { fontSize: typography.size.md, lineHeight: typography.lineHeight.relaxed },
-  row: { flexDirection: "row", justifyContent: "space-between", marginTop: verticalScale(12) },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: verticalScale(12),
+  },
   item: { fontSize: typography.size.sm },
   itemValue: { fontWeight: "600" },
-  symbol: { fontSize: moderateScale(30), textAlign: "center", marginTop: verticalScale(16) },
-  favoriteBtn: { marginTop: verticalScale(30), borderRadius: scale(8), paddingVertical: verticalScale(12), paddingHorizontal: scale(24), alignSelf: "center" },
-  scrollContent: { flexGrow: 1, justifyContent: "flex-start", alignItems: "center", paddingHorizontal: scale(20), paddingTop: verticalScale(40), paddingBottom: verticalScale(80) },
+  symbol: {
+    fontSize: moderateScale(30),
+    textAlign: "center",
+    marginTop: verticalScale(16),
+  },
+  favoriteBtn: {
+    marginTop: verticalScale(30),
+    borderRadius: scale(8),
+    paddingVertical: verticalScale(12),
+    paddingHorizontal: scale(24),
+    alignSelf: "center",
+  },
 });

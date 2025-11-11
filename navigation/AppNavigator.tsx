@@ -15,7 +15,8 @@ export default function AppNavigator() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        
+        animation: "fade", // ✅ transition douce entre onglets
+
         tabBarActiveTintColor: theme.primary,
         tabBarInactiveTintColor: theme.accent,
 
@@ -39,27 +40,33 @@ export default function AppNavigator() {
         name="Accueil"
         component={HomeScreen}
         options={{
-           tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color }) => (
             <Home size={26} color={color} strokeWidth={1.3} />
           ),
           tabBarLabel: "Accueil",
         }}
       />
+
       {/* 🕯️ RITUEL */}
       <Tab.Screen
         name="Rituel"
         component={RitualScreen}
         options={{
-          tabBarIcon: ({ color }) => ( <Orbit size={24} color={color} strokeWidth={1.2} /> ),
+          tabBarIcon: ({ color }) => (
+            <Orbit size={24} color={color} strokeWidth={1.2} />
+          ),
           tabBarLabel: "Rituel",
         }}
       />
-       {/* ⭐ FAVORIS */}
-       <Tab.Screen
+
+      {/* ⭐ FAVORIS */}
+      <Tab.Screen
         name="Favoris"
         component={FavoritesScreen}
         options={{
-          tabBarIcon: ({ color }) => ( <Star size={26} color={color} strokeWidth={1.3} /> ),
+          tabBarIcon: ({ color }) => (
+            <Star size={26} color={color} strokeWidth={1.3} />
+          ),
           tabBarLabel: "Favoris",
         }}
       />
