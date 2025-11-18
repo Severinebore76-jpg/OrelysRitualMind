@@ -3,26 +3,25 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View
 } from "react-native";
-import { ThemedText } from "../components/themed-text";
+
 import { ThemedView } from "../components/themed-view";
 import { scale, verticalScale } from "../constants/layout";
-import { getOrelysTheme } from "../constants/theme";
+import { getLoryaneTheme, getThemeForMonth } from "../constants/theme";
 import { typography } from "../constants/typography";
 
-// Icônes luxe
+import SymbolDisplay from "../components/SymbolDisplay";
 import { SYMBOLS_MAP } from "../constants/symbols";
 
-// 🆕 Composant symbole + label
-import SymbolDisplay from "../components/SymbolDisplay";
-
 export default function HistoryScreen() {
-  const theme = getOrelysTheme("light");
+  const theme = getLoryaneTheme("light");
+  const themeMonth = getThemeForMonth(); // ⭐ pour avoir la même couleur que Méditation du Mois
+
   const [history, setHistory] = useState([]);
 
   // ----------------------------------------------------------
@@ -34,7 +33,9 @@ export default function HistoryScreen() {
       const parsed = data ? JSON.parse(data) : [];
 
       const sorted = parsed.sort(
-        (a, b) => new Date(b.dateSaved).getTime() - new Date(a.dateSaved).getTime()
+        (a, b) =>
+          new Date(b.dateSaved).getTime() -
+          new Date(a.dateSaved).getTime()
       );
 
       setHistory(sorted.slice(0, 7));
@@ -48,25 +49,62 @@ export default function HistoryScreen() {
   }, []);
 
   return (
-    <ThemedView style={[styles.container, { backgroundColor: theme.background }]}>
-      
-      <ThemedText type="title" style={{ color: theme.text }}>
+    <ThemedView
+      style={[
+        styles.container,
+        { backgroundColor: theme.background }
+      ]}
+    >
+      {/* ⭐ Titre toujours présent + couleur identique à Méditation du mois */}
+      <Text
+        style={{
+          fontSize: 28,
+          fontWeight: "700",
+          textAlign: "center",
+          marginTop: 40,
+          marginBottom: 10,
+          color: themeMonth.primary // ⭐ cohérence totale
+        }}
+      >
         🕰 Historique
-      </ThemedText>
+      </Text>
 
-      <ThemedText style={{ marginTop: 8, color: theme.accent }}>
-        Tes 7 derniers rituels
-      </ThemedText>
+      {/* Sous-titre */}
+      <Text
+  style={{
+    marginTop: 4,
+    color: theme.text, // ⭐ plus foncé et lisible
+    opacity: 0.8,      // ⭐ léger adoucissement pour le rendu luxe
+    fontSize: 15,
+    fontWeight: "500",
+  }}
+>
+  Tes 7 derniers rituels
+</Text>
 
+      {/* État vide */}
       {history.length === 0 && (
-        <ThemedText style={{ marginTop: 30, color: theme.text }}>
+        <Text
+          style={{
+            marginTop: 30,
+            color: theme.text,
+            fontSize: 16,
+            textAlign: "center",
+          }}
+        >
           Aucun rituel sauvegardé pour le moment.
-        </ThemedText>
+        </Text>
       )}
 
+      {/* LISTE */}
       <ScrollView
-        style={{ width: "100%", marginTop: 30 }}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        style={{
+          width: "100%",
+          marginTop: 30,
+        }}
+        contentContainerStyle={{
+          paddingBottom: 120,
+        }}
         showsVerticalScrollIndicator={false}
       >
         {history.map((ritual, index) => (
@@ -75,23 +113,32 @@ export default function HistoryScreen() {
             style={[
               styles.card,
               {
-                borderColor: theme.primary,
-                backgroundColor: "#f7efe8"
+                borderColor: themeMonth.primary,
+                backgroundColor: "#f7efe8",
               },
             ]}
           >
-
             {/* Date */}
-            <Text style={[styles.date, { color: theme.primary }]}>
-              {ritual.day} {ritual.month.replace(/^\d+_/, "").replace(/_/g, " ")} 2026
+            <Text
+              style={[
+                styles.date,
+                { color: themeMonth.primary },
+              ]}
+            >
+              {ritual.day}{" "}
+              {ritual.month
+                .replace(/^\d+_/, "")
+                .replace(/_/g, " ")}{" "}
+              2026
             </Text>
 
             {/* Message */}
-            <Text style={styles.message}>“{ritual.message}”</Text>
+            <Text style={styles.message}>
+              “{ritual.message}”
+            </Text>
 
-            {/* ÉLÉMENTS LUXE */}
+            {/* Éléments visuels */}
             <View style={styles.elementsRow}>
-
               {/* Pierre */}
               {ritual.stone && (
                 <View style={styles.elementItem}>
@@ -99,7 +146,9 @@ export default function HistoryScreen() {
                     source={require("../assets/symbols/symbol_crystal.png")}
                     style={styles.elementIcon}
                   />
-                  <Text style={styles.elementText}>{ritual.stone}</Text>
+                  <Text style={styles.elementText}>
+                    {ritual.stone}
+                  </Text>
                 </View>
               )}
 
@@ -110,19 +159,32 @@ export default function HistoryScreen() {
                     source={require("../assets/symbols/symbol_oil.png")}
                     style={styles.elementIcon}
                   />
-                  <Text style={styles.elementText}>{ritual.essential_oil}</Text>
+                  <Text style={styles.elementText}>
+                    {ritual.essential_oil}
+                  </Text>
                 </View>
               )}
 
-              {/* 🆕 Symbole + label */}
-              {ritual.symbol && SYMBOLS_MAP[ritual.symbol] && (
-                <SymbolDisplay symbol={ritual.symbol} />
-              )}
+              {/* Symbole luxe */}
+              {ritual.symbol &&
+                SYMBOLS_MAP[ritual.symbol] && (
+                  <SymbolDisplay symbol={ritual.symbol} />
+                )}
             </View>
 
-            {/* Rituel */}
-            <Text style={[styles.label, { color: theme.primary }]}>Rituel :</Text>
-            <Text style={styles.ritualText}>{ritual.ritual}</Text>
+            {/* Rituel détaillé */}
+            <Text
+              style={[
+                styles.label,
+                { color: themeMonth.primary },
+              ]}
+            >
+              Rituel :
+            </Text>
+
+            <Text style={styles.ritualText}>
+              {ritual.ritual}
+            </Text>
           </View>
         ))}
       </ScrollView>
@@ -138,7 +200,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     alignItems: "center",
-    paddingTop: verticalScale(20),
+    paddingTop: 10,
   },
 
   card: {
@@ -154,6 +216,7 @@ const styles = StyleSheet.create({
     fontSize: typography.size.md,
     fontWeight: "600",
     marginBottom: 6,
+    textTransform: "capitalize",
   },
 
   message: {
@@ -161,12 +224,13 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     marginBottom: 14,
     color: "#3f2f28",
+    lineHeight: 22,
   },
 
   elementsRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 2,
+    gap: 4,
     marginBottom: 8,
   },
 
@@ -185,6 +249,7 @@ const styles = StyleSheet.create({
   elementText: {
     fontSize: typography.size.sm,
     color: "#3f2f28",
+    fontWeight: "500",
   },
 
   label: {

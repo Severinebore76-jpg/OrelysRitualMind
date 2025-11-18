@@ -6,13 +6,13 @@ import { ThemedText } from "../components/themed-text";
 import { ThemedView } from "../components/themed-view";
 
 import {
-  meditationAudios,
-  meditationImages,
-  meditationTexts,
+    meditationAudios,
+    meditationImages,
+    meditationTexts,
 } from "../constants/meditationAssets";
 
 import { energiesByMonth } from "../constants/meditationEnergies";
-import { getOrelysTheme, getThemeForMonth } from "../constants/theme";
+import { getLoryaneTheme, getThemeForMonth } from "../constants/theme";
 
 // ⭐ IMPORTS SVG PREMIUM
 import { PauseIcon } from "../components/icons/PauseIcon";
@@ -20,7 +20,7 @@ import { PlayIcon } from "../components/icons/PlayIcon";
 import { StopIcon } from "../components/icons/StopIcon";
 
 const MeditationScreen: React.FC = () => {
-  const theme = getOrelysTheme("light");
+  const theme = getLoryaneTheme("light");
 
   const month = (new Date().getMonth() + 1) as keyof typeof meditationImages;
 

@@ -1,7 +1,7 @@
 {
-  "name": "orelys-backend",
+  "name": "Loryane-backend",
   "version": "1.0.0",
-  "description": "Backend pour Orelys Ritual Mind",
+  "description": "Backend pour Loryane Ritual Mind",
   "main": "server.js",
   "type": "module",
   "scripts": {

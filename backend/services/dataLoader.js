@@ -1,7 +1,7 @@
 // 🧩 dataLoader.js
 // ------------------------------------------------------------
 // Service central de lecture et chargement des fichiers JSON
-// des rituels et des messages mensuels pour Orelys Ritual Mind.
+// des rituels et des messages mensuels pour Loryane Ritual Mind.
 // ------------------------------------------------------------
 
 import fs from "fs";

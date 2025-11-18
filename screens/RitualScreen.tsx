@@ -4,28 +4,25 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
-  Alert,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    ActivityIndicator,
+    Alert,
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import OrelysRotatingIcon from "../components/OrelysRotatingIcon";
+import LoryaneRotatingIcon from "../components/LoryaneRotatingIcon";
 import { scale, verticalScale } from "../constants/layout";
 import { plantesMensuelles } from "../constants/plantes";
-import { getErrorColor, getOrelysTheme } from "../constants/theme";
+import { getErrorColor, getLoryaneTheme } from "../constants/theme";
 import { typography } from "../constants/typography";
 import { normalizeMonthKey } from "../utils/normalizeMonthKey";
 
-// Import symboles dorés
-import { SYMBOLS_MAP } from "../constants/symbols";
-
-// 🆕 Ajout : symbole + label
 import SymbolDisplay from "../components/SymbolDisplay";
+import { SYMBOLS_MAP } from "../constants/symbols";
 
 export default function RitualScreen() {
   const route = useRoute();
@@ -37,7 +34,7 @@ export default function RitualScreen() {
   const [error, setError] = useState<string | null>(null);
   const [monthFile, setMonthFile] = useState<string | null>(null);
 
-  const theme = getOrelysTheme("light");
+  const theme = getLoryaneTheme("light");
 
   const formatDate2026 = () => {
     const d = new Date();
@@ -74,7 +71,6 @@ export default function RitualScreen() {
     }
   };
 
-  // SAUVEGARDE HISTORIQUE
   const saveRitualToHistory = async (data: any) => {
     try {
       const existing = await AsyncStorage.getItem("ritualHistory");
@@ -102,7 +98,6 @@ export default function RitualScreen() {
     }
   };
 
-  // FAVORIS — nouvelle structure
   const addToFavorites = async () => {
     try {
       if (!ritual) return;
@@ -138,7 +133,6 @@ export default function RitualScreen() {
     }
   };
 
-  // INIT
   useEffect(() => {
     if (fromFavorites && favoriteData) {
       loadFavoriteRitual();
@@ -182,6 +176,7 @@ export default function RitualScreen() {
         {/* HEADER */}
         <View style={styles.header}>
           <Text style={{ fontSize: 22, marginBottom: 4 }}>✨</Text>
+
           <Text style={[styles.title, { color: theme.primary }]}>
             Rituel du jour
           </Text>
@@ -189,12 +184,6 @@ export default function RitualScreen() {
           <Text style={[styles.subtitle, { color: "#3f2f28", marginTop: 2 }]}>
             {formatDate2026()}
           </Text>
-
-          {monthFile && (
-            <Text style={[styles.subtitle, { color: "#3f2f28" }]}>
-              {monthFile.replace(/^\d+_/, "").replace(/_/g, " ")}
-            </Text>
-          )}
         </View>
 
         {/* CARTE */}
@@ -210,11 +199,11 @@ export default function RitualScreen() {
 
           <View style={[styles.iconWrapper, { height: 220 }]}>
             <View pointerEvents="none">
-              <OrelysRotatingIcon />
+              <LoryaneRotatingIcon />
             </View>
           </View>
 
-          {/* RITUEL TEXTE */}
+          {/* RITUEL */}
           <View
             style={[
               styles.ritualBox,
@@ -227,12 +216,8 @@ export default function RitualScreen() {
             </Text>
           </View>
 
-          {/* —————————————————————————————— */}
-          {/*   ICÔNES LUXE : pierre / huile / symbole + LABEL */}
-          {/* —————————————————————————————— */}
+          {/* ÉLÉMENTS */}
           <View style={styles.elementsRow}>
-
-            {/* Pierre */}
             {ritual.stone && (
               <View style={styles.elementItem}>
                 <Image
@@ -243,7 +228,6 @@ export default function RitualScreen() {
               </View>
             )}
 
-            {/* Huile essentielle */}
             {ritual.essential_oil && (
               <View style={styles.elementItem}>
                 <Image
@@ -254,13 +238,11 @@ export default function RitualScreen() {
               </View>
             )}
 
-            {/* Symbole + LABEL */}
             {ritual.symbol && SYMBOLS_MAP[ritual.symbol] && (
               <SymbolDisplay symbol={ritual.symbol} />
             )}
           </View>
 
-          {/* FAVORIS */}
           <TouchableOpacity
             onPress={addToFavorites}
             activeOpacity={0.8}
@@ -276,9 +258,7 @@ export default function RitualScreen() {
   );
 }
 
-// ——————————————————————————————————————
 // STYLES (inchangés)
-// ——————————————————————————————————————
 const styles = StyleSheet.create({
   centered: { flex: 1, justifyContent: "center", alignItems: "center" },
   loadingText: { marginTop: verticalScale(10) },
@@ -307,9 +287,9 @@ const styles = StyleSheet.create({
   },
   cardBackground: {
     position: "absolute",
-    top: "-5%",
-    width: "120%",
-    height: "110%",
+    top: 0,
+    width: "110%",
+    height: "120%",
     resizeMode: "cover",
     opacity: 1,
     zIndex: -1,
@@ -324,7 +304,7 @@ const styles = StyleSheet.create({
   },
   iconWrapper: {
     alignItems: "center",
-    marginVertical: verticalScale(4),
+    marginVertical: verticalScale(-60),
   },
   ritualBox: {
     borderRadius: scale(10),
@@ -364,7 +344,7 @@ const styles = StyleSheet.create({
     color: "#3f2f28",
   },
   favoriteBtn: {
-    marginTop: verticalScale(30),
+    marginTop: verticalScale(20),
     borderRadius: scale(8),
     paddingVertical: verticalScale(12),
     paddingHorizontal: scale(24),

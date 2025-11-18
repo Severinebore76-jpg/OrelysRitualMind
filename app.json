@@ -1,34 +1,34 @@
 {
   "expo": {
-    "name": "Orelys RitualMind",
-    "slug": "Orelys-Ritual-Mind",
+    "name": "Loryane RitualMind",
+    "slug": "Loryane-Ritual-Mind",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icone_orelys.png",
-    "scheme": "orelysritualmind",
+    "icon": "./assets/images/icone_loryane.png",
+    "scheme": "Loryaneritualmind",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.orelys.ritualmind"
+      "bundleIdentifier": "com.Loryane.ritualmind"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#dccfcf",
-        "foregroundImage": "./assets/images/icone_orelys.png"
+        "foregroundImage": "./assets/images/icone_loryane.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
     "web": {
       "output": "single",
-      "favicon": "./assets/images/icone_orelys.png"
+      "favicon": "./assets/images/icone_loryane.png"
     },
     "plugins": [
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/logo_orelys.png",
+          "image": "./assets/images/logo_loryane.png",
           "imageWidth": 240,
           "resizeMode": "contain",
           "backgroundColor": "#dccfcf",

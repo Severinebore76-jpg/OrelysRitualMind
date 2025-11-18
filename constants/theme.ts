@@ -1,7 +1,7 @@
 // —————————————————————————————————————————————————————————————
-// 🎨 Orelys Ritual Mind — Système de thèmes globaux et mensuels
+// 🎨 Loryane Ritual Mind — Système de thèmes globaux et mensuels
 // Description : définit la palette visuelle pour chaque mois
-// + les variantes globales clair/sombre (univers Orelys).
+// + les variantes globales clair/sombre (univers Loryane).
 // —————————————————————————————————————————————————————————————
 
 export type Theme = {
@@ -38,7 +38,7 @@ const themesByMonth: Record<number, Theme> = {
 // ————————————————————————————————————
 // ✨ THÈME CLAIR GLOBAL
 // ————————————————————————————————————
-export const orelysLightTheme: Theme = {
+export const LoryaneLightTheme: Theme = {
   primary: "#a48989",
   accent: "#c9b1b1",
   background: "#dccfcf",
@@ -54,7 +54,7 @@ export const orelysLightTheme: Theme = {
 // ————————————————————————————————————
 // 🌙 THÈME SOMBRE GLOBAL
 // ————————————————————————————————————
-export const orelysDarkTheme: Theme = {
+export const LoryaneDarkTheme: Theme = {
   primary: "#c9b1b1",
   accent: "#a48989",
   background: "#241718",
@@ -74,8 +74,8 @@ export const getThemeForMonth = (month = new Date().getMonth() + 1): Theme => {
   return themesByMonth[month] || themesByMonth[1];
 };
 
-export const getOrelysTheme = (mode: "light" | "dark" = "light"): Theme => {
-  return mode === "dark" ? orelysDarkTheme : orelysLightTheme;
+export const getLoryaneTheme = (mode: "light" | "dark" = "light"): Theme => {
+  return mode === "dark" ? LoryaneDarkTheme : LoryaneLightTheme;
 };
 
 export const getErrorColor = (mode: "light" | "dark" = "light") =>
@@ -86,26 +86,26 @@ export const getErrorColor = (mode: "light" | "dark" = "light") =>
 // ————————————————————————————————————
 export const Colors = {
   light: {
-    primary: orelysLightTheme.primary,
-    accent: orelysLightTheme.accent,
-    background: orelysLightTheme.background,
-    card: orelysLightTheme.card,
-    surface: orelysLightTheme.surface,
-    text: orelysLightTheme.text,
-    error: orelysLightTheme.error,
-    textOnPrimary: orelysLightTheme.textOnPrimary,
-    textOnAccent: orelysLightTheme.textOnAccent,
+    primary: LoryaneLightTheme.primary,
+    accent: LoryaneLightTheme.accent,
+    background: LoryaneLightTheme.background,
+    card: LoryaneLightTheme.card,
+    surface: LoryaneLightTheme.surface,
+    text: LoryaneLightTheme.text,
+    error: LoryaneLightTheme.error,
+    textOnPrimary: LoryaneLightTheme.textOnPrimary,
+    textOnAccent: LoryaneLightTheme.textOnAccent,
   },
 
   dark: {
-    primary: orelysDarkTheme.primary,
-    accent: orelysDarkTheme.accent,
-    background: orelysDarkTheme.background,
-    card: orelysDarkTheme.card,
-    surface: orelysDarkTheme.surface,
-    text: orelysDarkTheme.text,
-    error: orelysDarkTheme.error,
-    textOnPrimary: orelysDarkTheme.textOnPrimary,
-    textOnAccent: orelysDarkTheme.textOnAccent,
+    primary: LoryaneDarkTheme.primary,
+    accent: LoryaneDarkTheme.accent,
+    background: LoryaneDarkTheme.background,
+    card: LoryaneDarkTheme.card,
+    surface: LoryaneDarkTheme.surface,
+    text: LoryaneDarkTheme.text,
+    error: LoryaneDarkTheme.error,
+    textOnPrimary: LoryaneDarkTheme.textOnPrimary,
+    textOnAccent: LoryaneDarkTheme.textOnAccent,
   },
 } as const;

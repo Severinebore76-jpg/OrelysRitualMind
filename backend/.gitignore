@@ -1,5 +1,5 @@
 # ---------------------------
-# 🌿 Orelys Ritual Mind — .gitignore
+# 🌿 Loryane Ritual Mind — .gitignore
 # Expo + React Native + Node.js backend
 # ---------------------------
 
@@ -16,13 +16,17 @@ build/
 .cache/
 .expo/
 .expo-shared/
+.expo-dev-cache/
+.expo-tmp/
 web-build/
 
 # 🧠 IDE / OS
 .DS_Store
+**/.DS_Store
 .vscode/
 .idea/
 *.swp
+Thumbs.db
 
 # 🌐 Environment
 .env
@@ -30,27 +34,20 @@ web-build/
 .env.development
 .env.production
 .env.test
+backend/.env
 
 # 🪶 Logs
 *.log
 logs/
+backend/logs/
 *.tmp
 
-# 🧩 Expo
-.expo/
-.expo-shared/
-.expo-dev-cache/
-.expo-tmp/
-
-# 📁 Backend outputs
+# 📂 Backend specific
 backend/node_modules/
-backend/.env
-backend/logs/
 backend/tmp/
 backend/data/backups/
 backend/uploads/
 
-# 🔒 Misc
+# 🧪 Testing / Coverage
 coverage/
 __pycache__/
-Thumbs.db

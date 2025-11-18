@@ -16,8 +16,8 @@
 │   ├── .DS_Store
 │   ├── images
 │   │   ├── .DS_Store
-│   │   ├── icone_orelys.png
-│   │   └── logo_orelys.png
+│   │   ├── icone_Loryane.png
+│   │   └── logo_Loryane.png
 │   ├── meditations
 │   │   ├── audio
 │   │   │   ├── 01_Janvier.mp3
@@ -123,7 +123,7 @@
 │   │       └── 12_Decembre_Gratitude.json
 │   ├── docs
 │   │   └── postman
-│   │       └── OrelysRitualMind_API.postman_collection.json
+│   │       └── LoryaneRitualMind_API.postman_collection.json
 │   ├── middlewares
 │   │   └── errorHandler.js
 │   ├── package-lock.json
@@ -144,7 +144,7 @@
 │   │   ├── PauseIcon.tsx
 │   │   ├── PlayIcon.tsx
 │   │   └── StopIcon.tsx
-│   ├── OrelysRotatingIcon.tsx
+│   ├── LoryaneRotatingIcon.tsx
 │   ├── parallax-scroll-view.tsx
 │   ├── SymbolDisplay.tsx
 │   ├── themed-text.tsx

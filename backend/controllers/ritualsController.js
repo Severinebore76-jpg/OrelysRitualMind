@@ -1,6 +1,6 @@
 // 🧩 ritualsController.js
 // ------------------------------------------------------------
-// Contrôleur des routes liées aux rituels Orelys Ritual Mind.
+// Contrôleur des routes liées aux rituels Loryane Ritual Mind.
 // ------------------------------------------------------------
 
 import fs from "fs";

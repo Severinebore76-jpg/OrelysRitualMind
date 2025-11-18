@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import { Animated, Easing, StyleSheet, View } from "react-native";
 
-export default function OrelysRotatingIcon() {
+export default function LoryaneRotatingIcon() {
   const rotation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function OrelysRotatingIcon() {
   return (
     <View style={styles.wrapper}>
       <Animated.Image
-        source={require("../assets/images/icone_orelys.png")}
+        source={require("../assets/images/icone_loryane.png")}
         resizeMode="contain"
         style={[
           styles.icon,

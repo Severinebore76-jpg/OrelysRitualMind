@@ -27,7 +27,7 @@ app.use("/api/months", monthsRoutes);
 
 // Route de test
 app.get("/api/test", (req, res) => {
-  res.json({ message: "✅ Backend Orelys Ritual Mind opérationnel" });
+  res.json({ message: "✅ Backend Loryane Ritual Mind opérationnel" });
 });
 
 // 🌐 Middleware global de gestion des erreurs

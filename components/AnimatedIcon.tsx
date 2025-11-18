@@ -6,7 +6,7 @@
 import { Home, Star } from "lucide-react-native";
 import React from "react";
 import { Image } from "react-native";
-import { getOrelysTheme } from "../constants/theme";
+import { getLoryaneTheme } from "../constants/theme";
 
 type IconProps = {
   name: "home" | "ritual" | "favorites";
@@ -14,7 +14,7 @@ type IconProps = {
 };
 
 export default function AnimatedIcon({ name, focused }: IconProps) {
-  const theme = getOrelysTheme("light");
+  const theme = getLoryaneTheme("light");
   const color = focused ? theme.primary : theme.accent;
 
   switch (name) {
@@ -23,10 +23,10 @@ export default function AnimatedIcon({ name, focused }: IconProps) {
       return <Home size={28} color={color} strokeWidth={1.3} />;
 
     case "ritual":
-      // 🔮 Cristal Orelys statique, teinte harmonisée
+      // 🔮 Cristal Loryane statique, teinte harmonisée
       return (
         <Image
-          source={require("../assets/images/Icone Orelys.png")}
+          source={require("../assets/images/Icone Loryane.png")}
           style={{
             width: 42,
             height: 42,

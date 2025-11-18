@@ -12,5 +12,5 @@ export const plantesMensuelles = {
   octobre: require("../assets/plantes/cannelle.png"),
   novembre: require("../assets/plantes/eucalyptus.png"),
   decembre: require("../assets/plantes/pin.png"),
-  default: require("../assets/images/icone_orelys.png"),
+  default: require("../assets/images/icone_loryane.png"),
 };

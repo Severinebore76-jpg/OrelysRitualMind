@@ -1,6 +1,6 @@
 // 🧩 messagesController.js
 // ------------------------------------------------------------
-// Contrôleur des messages inspirants pour Orelys Ritual Mind
+// Contrôleur des messages inspirants pour Loryane Ritual Mind
 // ------------------------------------------------------------
 
 import fs from "fs";

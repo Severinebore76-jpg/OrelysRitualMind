@@ -11,31 +11,24 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { moderateScale, scale, verticalScale } from "../constants/layout";
-import { getOrelysTheme } from "../constants/theme";
+import { scale, verticalScale } from "../constants/layout";
+import { getLoryaneTheme } from "../constants/theme";
 import { typography } from "../constants/typography";
 
-// 🆕 MAP DES SYMBOLS
+// SYMBOLES
+import SymbolDisplay from "../components/SymbolDisplay";
 import { SYMBOLS_MAP } from "../constants/symbols";
 
-// 🆕 Composant symbole + label
-import SymbolDisplay from "../components/SymbolDisplay";
-
 export default function HomeScreen() {
-  const theme = getOrelysTheme("light");
+  const theme = getLoryaneTheme("light");
   const nav = useNavigation();
 
-  // -------------------------------------------------------
   // ANIMATIONS
-  // -------------------------------------------------------
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.9)).current;
   const quoteAnim = useRef(new Animated.Value(0)).current;
   const quoteAnimY = useRef(new Animated.Value(10)).current;
 
-  // -------------------------------------------------------
-  // STATE
-  // -------------------------------------------------------
   const [dailyMessage, setDailyMessage] = useState({
     message: null,
     stone: null,
@@ -44,9 +37,6 @@ export default function HomeScreen() {
   });
   const [loading, setLoading] = useState(true);
 
-  // -------------------------------------------------------
-  // ANIMATION D’ENTRÉE
-  // -------------------------------------------------------
   useEffect(() => {
     Animated.parallel([
       Animated.timing(fadeAnim, {
@@ -65,9 +55,6 @@ export default function HomeScreen() {
     fetchMessage();
   }, []);
 
-  // -------------------------------------------------------
-  // ANIMATION DU TEXTE
-  // -------------------------------------------------------
   useEffect(() => {
     if (!loading) {
       Animated.parallel([
@@ -87,9 +74,6 @@ export default function HomeScreen() {
     }
   }, [loading]);
 
-  // -------------------------------------------------------
-  // FETCH MESSAGE DU JOUR
-  // -------------------------------------------------------
   const fetchMessage = async () => {
     try {
       const res = await fetch("http://192.168.0.22:5050/api/messages/today");
@@ -114,13 +98,10 @@ export default function HomeScreen() {
     }
   };
 
-  // -------------------------------------------------------
-  // RENDER
-  // -------------------------------------------------------
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
 
-      {/* LOGO ANIMÉ */}
+      {/* LOGO + TITRE */}
       <Animated.View
         style={{
           opacity: fadeAnim,
@@ -129,13 +110,14 @@ export default function HomeScreen() {
         }}
       >
         <Image
-          source={require("../assets/images/logo_orelys.png")}
+          source={require("../assets/images/logo_loryane.png")}
           style={styles.logo}
           resizeMode="contain"
         />
 
-        <Text style={[styles.title, { color: theme.text }]}>
-          Orelys Ritual Mind
+        {/* ⭐ TITRE MODIFIÉ ICI → theme.primary */}
+        <Text style={[styles.title, { color: theme.primary }]}>
+          Loryane Ritual Mind
         </Text>
       </Animated.View>
 
@@ -151,20 +133,16 @@ export default function HomeScreen() {
               alignItems: "center",
             }}
           >
-            {/* Séparateurs */}
             <Text style={styles.separator}>──────── ✦ ────────</Text>
 
-            {/* Citation */}
             <Text style={[styles.quote, { color: theme.text }]}>
               “{dailyMessage.message}”
             </Text>
 
             <Text style={styles.separator}>──────── ✦ ────────</Text>
 
-            {/* Ligne des éléments */}
             <View style={styles.elementsRow}>
 
-              {/* PIERRE */}
               {dailyMessage.stone && (
                 <View style={styles.elementItem}>
                   <Image
@@ -175,7 +153,6 @@ export default function HomeScreen() {
                 </View>
               )}
 
-              {/* HUILE */}
               {dailyMessage.essential_oil && (
                 <View style={styles.elementItem}>
                   <Image
@@ -186,7 +163,6 @@ export default function HomeScreen() {
                 </View>
               )}
 
-              {/* SYMBOLE + LABEL */}
               {dailyMessage.symbol && SYMBOLS_MAP[dailyMessage.symbol] && (
                 <SymbolDisplay symbol={dailyMessage.symbol} />
               )}
@@ -196,28 +172,25 @@ export default function HomeScreen() {
         )}
       </View>
 
-      {/* BOUTON RITUEL DU JOUR */}
+      {/* BOUTON */}
       <View style={styles.actions}>
-  <TouchableOpacity
-  onPress={() => nav.navigate("Rituel" as never)}
-  style={styles.creamButton}
->
-  <View style={styles.buttonContent}>
-    <Text style={styles.buttonIcon}>✨</Text>
-    <Text style={styles.creamButtonText}>Découvrir le rituel du jour</Text>
-  </View>
-</TouchableOpacity>
-</View>
+        <TouchableOpacity
+          onPress={() => nav.navigate("Rituel")}
+          style={styles.creamButton}
+        >
+          <View style={styles.buttonContent}>
+            <Text style={styles.buttonIcon}>✨</Text>
+            <Text style={styles.creamButtonText}>Découvrir le rituel du jour</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
 
-      {/* FOOTER */}
       <Text style={styles.footer}>🕊️ Prendre un instant pour soi 🕊️</Text>
     </View>
   );
 }
 
-// -------------------------------------------------------
 // STYLES
-// -------------------------------------------------------
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -226,9 +199,9 @@ const styles = StyleSheet.create({
     padding: scale(20),
   },
   logo: {
-    width: scale(160),
-    height: verticalScale(160),
-    marginBottom: verticalScale(10),
+    width: scale(125),
+    height: verticalScale(125),
+    marginBottom: verticalScale(12),
   },
   title: {
     fontSize: typography.size.xl,
@@ -281,9 +254,37 @@ const styles = StyleSheet.create({
     width: "80%",
     alignItems: "center",
   },
-  emojiTop: {
-    fontSize: moderateScale(22),
-    marginBottom: 8,
+  creamButton: {
+    backgroundColor: "#f7efe8",
+    paddingVertical: 14,
+    paddingHorizontal: 28,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#d6b98c",
+    marginTop: verticalScale(20),
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 3,
+    alignSelf: "center",
+  },
+  creamButtonText: {
+    fontSize: typography.size.md,
+    fontFamily: typography.fontFamily.primary,
+    color: "#aa755dff",
+    textAlign: "center",
+    fontWeight: "600",
+    letterSpacing: 0.3,
+  },
+  buttonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  },
+  buttonIcon: {
+    fontSize: 20,
   },
   footer: {
     fontSize: typography.size.sm,
@@ -292,41 +293,4 @@ const styles = StyleSheet.create({
     color: "#3f2f28",
     textAlign: "center",
   },
-  creamButton: {
-  backgroundColor: "#f7efe8", // crème doux
-  paddingVertical: 14,
-  paddingHorizontal: 28,
-  borderRadius: 14,
-  borderWidth: 1,
-  borderColor: "#d6b98c", // doré clair
-  marginTop: verticalScale(20),
-  zIndex: 10,
-  position: "relative",
-
-  // Effet premium
-  shadowColor: "#000",
-  shadowOpacity: 0.08,
-  shadowRadius: 6,
-  shadowOffset: { width: 0, height: 3 },
-  elevation: 3,
-  alignSelf: "center",
-},
-creamButtonText: {
-  fontSize: typography.size.md,
-  fontFamily: typography.fontFamily.primary,
-  color: "#aa755dff",
-  textAlign: "center",
-  fontWeight: "600",
-  letterSpacing: 0.3,
-},
-buttonContent: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 8,
-},
-
-buttonIcon: {
-  fontSize: 20,
-},
 });

@@ -1,28 +1,93 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Home, Moon, Orbit, Scroll, Star, User } from "lucide-react-native";
 import React from "react";
-import { getOrelysTheme } from "../constants/theme";
+
+import { getLoryaneTheme } from "../constants/theme";
+
+// Écrans
+import AboutScreen from "../screens/AboutScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import HistoryScreen from "../screens/HistoryScreen";
 import HomeScreen from "../screens/HomeScreen";
+import LegalScreen from "../screens/LegalScreen";
 import MeditationScreen from "../screens/MeditationScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import RitualScreen from "../screens/RitualScreen";
 
-const Tab = createBottomTabNavigator();
+// 🆕 Nouveaux écrans réglementaires
+import ConfidentialityScreen from "../screens/ConfidentialityScreen";
+import DataScreen from "../screens/DataScreen";
 
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+// -------------------------------
+// 📌 STACK PROFIL = profil + sous-pages
+// -------------------------------
+function ProfileStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ProfilMain"
+        component={ProfileScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="Apropos"
+        component={AboutScreen}
+        options={{
+          title: "À propos de Loryane",
+          headerShown: true,
+        }}
+      />
+
+      <Stack.Screen
+        name="Legal"
+        component={LegalScreen}
+        options={{
+          title: "Mentions légales",
+          headerShown: true,
+        }}
+      />
+
+      {/* 🆕 Politique de confidentialité */}
+      <Stack.Screen
+        name="Confidentiality"
+        component={ConfidentialityScreen}
+        options={{
+          title: "Politique de confidentialité",
+          headerShown: true,
+        }}
+      />
+
+      {/* 🆕 Données personnelles */}
+      <Stack.Screen
+        name="Data"
+        component={DataScreen}
+        options={{
+          title: "Données personnelles",
+          headerShown: true,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+// -------------------------------
+// 📌 TAB PRINCIPALE : 6 ICÔNES
+// -------------------------------
 export default function AppNavigator() {
-  const theme = getOrelysTheme("light");
+  const theme = getLoryaneTheme("light");
 
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        animation: "fade", // ✅ transition douce entre onglets
-
+        animation: "fade",
         tabBarActiveTintColor: theme.primary,
         tabBarInactiveTintColor: theme.accent,
-
         tabBarStyle: {
           backgroundColor: theme.background,
           borderTopWidth: 0,
@@ -38,7 +103,6 @@ export default function AppNavigator() {
         },
       }}
     >
-      {/* 🏠 ACCUEIL */}
       <Tab.Screen
         name="Accueil"
         component={HomeScreen}
@@ -46,11 +110,9 @@ export default function AppNavigator() {
           tabBarIcon: ({ color }) => (
             <Home size={26} color={color} strokeWidth={1.3} />
           ),
-          tabBarLabel: "Accueil",
         }}
       />
 
-      {/* 🕯️ RITUEL */}
       <Tab.Screen
         name="Rituel"
         component={RitualScreen}
@@ -58,11 +120,9 @@ export default function AppNavigator() {
           tabBarIcon: ({ color }) => (
             <Orbit size={24} color={color} strokeWidth={1.2} />
           ),
-          tabBarLabel: "Rituel",
         }}
       />
 
-      {/* 🌙 MÉDITATION DU MOIS */}
       <Tab.Screen
         name="Méditation"
         component={MeditationScreen}
@@ -71,7 +131,6 @@ export default function AppNavigator() {
         }}
       />
 
-      {/* ⭐ FAVORIS */}
       <Tab.Screen
         name="Favoris"
         component={FavoritesScreen}
@@ -79,10 +138,9 @@ export default function AppNavigator() {
           tabBarIcon: ({ color }) => (
             <Star size={26} color={color} strokeWidth={1.3} />
           ),
-          tabBarLabel: "Favoris",
         }}
       />
-        {/* 📜 HISTORIQUE */}
+
       <Tab.Screen
         name="Historique"
         component={HistoryScreen}
@@ -91,15 +149,14 @@ export default function AppNavigator() {
         }}
       />
 
-      {/* 👤 PROFIL */}
+      {/* 👤 PROFIL + sous-écrans */}
       <Tab.Screen
         name="Profil"
-        component={ProfileScreen}
+        component={ProfileStack}
         options={{
           tabBarIcon: ({ color }) => <User size={26} color={color} />,
         }}
       />
-
     </Tab.Navigator>
   );
 }

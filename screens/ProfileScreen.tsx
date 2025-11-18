@@ -1,54 +1,358 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+// screens/ProfileScreen.tsx
+import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
+import { Modal, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { ThemedText } from "../components/themed-text";
 import { ThemedView } from "../components/themed-view";
+import { getLoryaneTheme } from "../constants/theme";
 
 const ProfileScreen: React.FC = () => {
+  const theme = getLoryaneTheme("light");
+  const nav = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const user = {
+    name: "Utilisateur invité",
+    email: null,
+    subscription: "freemium",
+  };
+
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title">Profil & À propos</ThemedText>
+    <ThemedView style={[styles.container, { backgroundColor: theme.background }]}>
+      
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 50, alignItems: "center" }}
+      >
+        
+        {/* TITRE */}
+        <ThemedText type="title" style={{ color: theme.primary, marginTop: 40 }}>
+          Profil
+        </ThemedText>
 
-      <ThemedText style={styles.paragraph}>
-        Ici tu afficheras :
-      </ThemedText>
+        {/* 🅰️ BLOC A — INFOS USER */}
+        <ThemedView style={styles.card}>
+          <ThemedView style={styles.avatar}>
+            <ThemedText style={styles.avatarInitial}>
+              {user.name.charAt(0)}
+            </ThemedText>
+          </ThemedView>
 
-      <ThemedText style={styles.item}>
-        • les infos de l’utilisateur (nom, e-mail…)
-      </ThemedText>
-      <ThemedText style={styles.item}>
-        • le statut d’abonnement (Freemium / Orelys+)
-      </ThemedText>
-      <ThemedText style={styles.item}>
-        • un lien vers Orelys Essentielle / mentions légales / RGPD
-      </ThemedText>
+          <ThemedText style={styles.userName}>{user.name}</ThemedText>
 
-      <ThemedText style={styles.note}>
-        (Placeholder pour l’instant — on branchera l’auth et l’état d’abonnement
-        quand on attaquera la partie backend utilisateur.)
-      </ThemedText>
+          <ThemedText style={styles.userEmail}>
+            {user.email ?? "Aucune adresse enregistrée"}
+          </ThemedText>
+
+          <ThemedText style={styles.connectionStatus}>
+            {user.email ? "Connectée" : "Non connectée"}
+          </ThemedText>
+
+          <TouchableOpacity style={styles.secondaryBtn}>
+            <ThemedText style={styles.secondaryBtnText}>
+              Modifier mes informations
+            </ThemedText>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.primaryBtn, { marginTop: 12 }]}
+            onPress={() => nav.navigate("Auth" as never)}
+          >
+            <ThemedText style={styles.primaryBtnText}>
+              Créer un compte / Se connecter
+            </ThemedText>
+          </TouchableOpacity>
+        </ThemedView>
+
+        {/* 🅱️ BLOC B — ABONNEMENT */}
+        <ThemedView style={styles.card}>
+          <ThemedText style={styles.cardTitle}>Statut d’abonnement</ThemedText>
+
+          {user.subscription === "freemium" ? (
+            <>
+              <ThemedText style={styles.statusFree}>
+                🔓 Freemium — accès limité
+              </ThemedText>
+
+              <ThemedText style={styles.subscriptionText}>
+                Profite des messages du jour et du rituel quotidien.{"\n"}
+                Passe à Loryane+ pour débloquer toutes les fonctionnalités premium.
+              </ThemedText>
+
+              <TouchableOpacity
+                style={styles.primaryBtn}
+                onPress={() => nav.navigate("Subscription" as never)}
+              >
+                <ThemedText style={styles.primaryBtnText}>
+                  ⭐ Passer à Loryane+
+                </ThemedText>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <ThemedText style={styles.statusPlus}>✨ Loryane+ — accès complet</ThemedText>
+              <ThemedText style={styles.subscriptionText}>
+                Merci pour ton soutien 🕊️  
+                Tu profites de toutes les fonctionnalités premium.
+              </ThemedText>
+            </>
+          )}
+        </ThemedView>
+
+        {/* 🅲 BLOC C — RÉGLEMENTAIRE */}
+        <ThemedView style={styles.card}>
+          <ThemedText style={styles.cardTitle}>Informations légales</ThemedText>
+
+          <TouchableOpacity
+            style={styles.linkBtn}
+            onPress={() => nav.navigate("Legal" as never)}
+          >
+            <ThemedText style={styles.linkText}>
+              Mentions légales & RGPD
+            </ThemedText>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.linkBtn}
+            onPress={() => nav.navigate("Confidentiality" as never)}
+          >
+            <ThemedText style={styles.linkText}>
+              Politique de confidentialité
+            </ThemedText>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.linkBtn}
+            onPress={() => nav.navigate("Data" as never)}
+          >
+            <ThemedText style={styles.linkText}>
+              Données personnelles
+            </ThemedText>
+          </TouchableOpacity>
+        </ThemedView>
+
+        {/* 🅳 BLOC D — Loryane ESSENTIELLE */}
+        <TouchableOpacity
+          style={styles.aboutBtn}
+          onPress={() => setModalVisible(true)}
+        >
+          <ThemedText style={styles.aboutIcon}>✦</ThemedText>
+          <ThemedText style={styles.aboutText}>Loryane Essentielle</ThemedText>
+        </TouchableOpacity>
+
+      </ScrollView>
+
+      {/* MODALE */}
+      <Modal transparent animationType="fade" visible={modalVisible}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+            <ThemedText style={styles.modalTitle}>Disponible prochainement ✨</ThemedText>
+
+            <ThemedText style={styles.modalText}>
+              La version Loryane Essentielle sera bientôt intégrée dans l’app.
+            </ThemedText>
+
+            <TouchableOpacity
+              style={[styles.primaryBtn, { marginTop: 16 }]}
+              onPress={() => setModalVisible(false)}
+            >
+              <ThemedText style={styles.primaryBtnText}>Fermer</ThemedText>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
     </ThemedView>
   );
 };
 
+export default ProfileScreen;
+
+// ------------------------------------------------------
+// STYLES
+// ------------------------------------------------------
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     paddingHorizontal: 24,
   },
-  paragraph: {
-    marginTop: 16,
-    marginBottom: 8,
+
+  card: {
+    width: "90%",
+    marginTop: 26,
+    paddingVertical: 22,
+    paddingHorizontal: 18,
+    backgroundColor: "#f7efe8",
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#d6b98c55",
   },
-  item: {
-    marginTop: 4,
+
+  avatar: {
+    width: 72,
+    height: 72,
+    borderRadius: 40,
+    backgroundColor: "#fff5f0",
+    borderWidth: 1,
+    borderColor: "#dec5a5",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
   },
-  note: {
-    marginTop: 24,
+
+  avatarInitial: {
+    fontSize: 30,
+    color: "#aa755d",
+    fontWeight: "600",
+  },
+
+  userName: {
+    fontSize: 17,
+    fontWeight: "600",
+    color: "#3f2f28",
+    marginTop: 14,
     textAlign: "center",
-    opacity: 0.7,
+  },
+
+  userEmail: {
+    fontSize: 14,
+    color: "#6c5448",
+    textAlign: "center",
+    marginTop: 4,
+    opacity: 0.8,
+  },
+
+  connectionStatus: {
+    marginTop: 6,
+    fontSize: 14,
+    color: "#aa755d",
+    fontWeight: "600",
+    textAlign: "center",
+    opacity: 0.9,
+  },
+
+  primaryBtn: {
+    backgroundColor: "#fff5f0",
+    paddingVertical: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#d6b98c",
+    alignItems: "center",
+    marginTop: 12,
+  },
+
+  primaryBtnText: {
+    fontWeight: "600",
+    color: "#3f2f28",
+    fontSize: 15,
+  },
+
+  secondaryBtn: {
+    marginTop: 10,
+    backgroundColor: "#f2ece6",
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+
+  secondaryBtnText: {
+    fontSize: 14,
+    color: "#3f2f28",
+    textAlign: "center",
+    fontWeight: "500",
+  },
+
+  cardTitle: {
+    fontSize: 17,
+    fontWeight: "700",
+    color: "#3f2f28",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+
+  statusFree: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#aa755d",
+    textAlign: "center",
+  },
+
+  statusPlus: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#d6b98c",
+    textAlign: "center",
+  },
+
+  subscriptionText: {
+    marginTop: 10,
+    textAlign: "center",
+    fontSize: 14,
+    color: "#3f2f28",
+    lineHeight: 20,
+  },
+
+  linkBtn: {
+    paddingVertical: 10,
+  },
+
+  linkText: {
+    color: "#3f2f28",
+    fontSize: 15,
+    textAlign: "center",
+  },
+
+  aboutBtn: {
+    marginTop: 30,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 14,
+    paddingHorizontal: 22,
+    backgroundColor: "#fff5f0",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#d6b98c",
+  },
+
+  aboutIcon: {
+    fontSize: 18,
+    color: "#d6b98c",
+    marginRight: 8,
+  },
+
+  aboutText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#3f2f28",
+  },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.45)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  modalBox: {
+    width: "80%",
+    backgroundColor: "#fff5f0",
+    padding: 26,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#d6b98c",
+    alignItems: "center",
+  },
+
+  modalTitle: {
+    fontSize: 18,
+    color: "#3f2f28",
+    fontWeight: "700",
+  },
+
+  modalText: {
+    marginTop: 12,
+    fontSize: 15,
+    color: "#3f2f28",
+    textAlign: "center",
   },
 });
-
-export default ProfileScreen;

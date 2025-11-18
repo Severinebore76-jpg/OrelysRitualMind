@@ -2,7 +2,7 @@
 import { PropsWithChildren, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 
-import { orelysDarkTheme, orelysLightTheme } from "../../constants/theme";
+import { LoryaneDarkTheme, LoryaneLightTheme } from "../../constants/theme";
 import { useColorScheme } from "../../hooks/use-color-scheme";
 import { ThemedText } from "../themed-text"; // ← correct
 import { ThemedView } from "../themed-view"; // ← correct
@@ -17,8 +17,8 @@ export function Collapsible({
 
   const iconColor =
     colorScheme === "light"
-      ? orelysLightTheme.text
-      : orelysDarkTheme.text;
+      ? LoryaneLightTheme.text
+      : LoryaneDarkTheme.text;
 
   return (
     <ThemedView>

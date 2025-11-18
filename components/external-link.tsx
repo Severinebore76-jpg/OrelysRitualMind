@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     opacity: 0.9,
   },
   text: {
-    color: "#c9a46a", // doré doux Orelys
+    color: "#c9a46a", // doré doux Loryane
     textDecorationLine: "underline",
   },
 });
